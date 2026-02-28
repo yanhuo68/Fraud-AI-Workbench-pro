@@ -1,0 +1,123 @@
+# ── Secrets & Environment ──────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.env.local
+
+# ── Python Virtual Environment ─────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Data & Runtime State (mounted as Docker volumes or generated at runtime) ───
+# data/raw/ is intentionally tracked; user will manually manage what goes to GitHub.
+data/uploads/
+data/mediauploads/
+data/pictureuploads/
+data/processed/
+data/generated/
+data/vector_store/
+data/kb/
+data/llm/
+data/ml/
+data/neo4j/
+data/assets/
+# SQLite database (recreated by init_user_db() on startup)
+data/db/
+*.db
+*.sqlite
+*.sqlite3
+
+# ── ML Models & Checkpoints (large binaries) ───────────────────────────────────
+models/
+*.pkl
+*.joblib
+*.safetensors
+*.ckpt
+*.pth
+*.pt
+*.h5
+*.onnx
+
+# ── Media Files (large; not appropriate for git) ───────────────────────────────
+*.mp4
+*.mp3
+*.wav
+*.ogg
+*.flac
+*.avi
+*.mov
+
+# ── Java/Neo4j Plugin Jars ─────────────────────────────────────────────────────
+*.jar
+
+# ── Logs ───────────────────────────────────────────────────────────────────────
+logs/
+*.log
+
+# ── Python Build Artifacts ─────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ── Testing & Coverage ─────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+
+# ── Type Checkers & Linters ────────────────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+.pytype/
+
+# ── Jupyter Notebooks ──────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── IDE & Editor ───────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ─────────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ── Streamlit Cache ────────────────────────────────────────────────────────────
+.streamlit/secrets.toml
+
+*.docx
+GIT_WORKFLOW_GUIDE.md
+
+# Documentation Screenshots
+documentation/screen/
