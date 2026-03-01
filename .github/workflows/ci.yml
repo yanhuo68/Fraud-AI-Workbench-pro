@@ -66,7 +66,7 @@ jobs:
         
     - name: Start Docker Compose Stack
       run: |
-        docker-compose up -d
+        docker compose up -d
         
     - name: Wait for FastAPI backend to be ready
       run: |
@@ -97,4 +97,4 @@ jobs:
     - name: Stop Docker Compose Stack
       if: always()
       run: |
-        docker-compose down -v
+        docker compose down -v
