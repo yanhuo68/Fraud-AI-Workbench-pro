@@ -62,7 +62,7 @@ jobs:
         
     - name: Install test dependencies
       run: |
-        pip install pytest requests
+        pip install pytest requests fastapi httpx
         
     - name: Start Docker Compose Stack
       run: |
