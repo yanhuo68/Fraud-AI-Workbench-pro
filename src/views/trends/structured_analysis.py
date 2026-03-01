@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import io
+import os
 import datetime
 from pathlib import Path
 from agents.eda_agent import compute_basic_eda, eda_narrative

@@ -63,8 +63,8 @@ def load_documents(docs_dir: Path) -> list[Document]:
 
 
 def build_vectorstore(
-    docs_dir: Path("docs"),
-    out_dir: Path("data/kb"),
+    docs_dir: Path = Path("docs"),
+    out_dir: Path = Path("data/kb"),
     chunk_size: int = 800,
     chunk_overlap: int = 150,
 ):
