@@ -85,6 +85,12 @@ jobs:
         docker logs fraud_api
         exit 1
         
+    - name: Fix directory permissions for tests
+      run: |
+        mkdir -p logs
+        sudo chown -R $USER:$USER logs/
+        sudo chmod -R 777 logs/
+        
     - name: Run Integration Tests
       env:
         PYTHONPATH: "src"
