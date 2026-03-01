@@ -70,4 +70,5 @@ services:
 
 networks:
   fraud_network:
-    external: true
+    name: fraud_network
+    driver: bridge
