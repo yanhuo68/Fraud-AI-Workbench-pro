@@ -75,11 +75,14 @@ jobs:
         for i in {1..30}; do
           if curl -s http://localhost:8000/health > /dev/null; then
             echo "Backend is up!"
-            break
+            exit 0
           fi
           echo "Waiting..."
           sleep 2
         done
+        echo "Backend failed to start. Container logs:"
+        docker logs fraud_api
+        exit 1
         
     - name: Run Integration Tests
       env:
