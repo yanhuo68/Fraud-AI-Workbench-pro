@@ -66,6 +66,7 @@ jobs:
         
     - name: Start Docker Compose Stack
       run: |
+        docker network create fraud_network || true
         docker compose up -d
         
     - name: Wait for FastAPI backend to be ready
