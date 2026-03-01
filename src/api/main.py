@@ -23,16 +23,14 @@ except Exception as e:
 logger.info(f"Loaded Settings: URI={settings.graph_store_uri}, User={settings.graph_store_user}")
 
 from contextlib import asynccontextmanager
-import time
+import asyncio
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Check Neo4j Connectivity on Startup
+async def _verify_neo4j_connectivity():
     max_retries = 10
     retry_delay = 10
     connected = False
     
-    logger.info("📡 Checking Neo4j Graph Store connectivity...")
+    logger.info("📡 Checking Neo4j Graph Store connectivity in background...")
     for i in range(max_retries):
         try:
             driver = settings.graph_driver
@@ -43,16 +41,21 @@ async def lifespan(app: FastAPI):
         except Exception as e:
             logger.warning(f"⏳ Neo4j not ready (attempt {i+1}/{max_retries}): {e}")
             if i < max_retries - 1:
-                time.sleep(retry_delay)
+                await asyncio.sleep(retry_delay)
     
     if not connected:
         logger.error("❌ Could not connect to Neo4j. Graph features will be disabled or unstable.")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Start Neo4j Connectivity check as a background task
+    asyncio.create_task(_verify_neo4j_connectivity())
     
     yield
     # Shutdown logic (optional)
     try:
         settings.graph_driver.close()
-    except:
+    except Exception:
         pass
 
 app = FastAPI(title="Fraud Analytics API", version="1.1", lifespan=lifespan)
