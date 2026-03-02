@@ -140,14 +140,19 @@ def generate_documentation():
 
     # Helper for UI Chapters
     # Helper for UI Chapters
-    def add_ui_section(doc, chapter_num, title, ui_desc, manual_desc, workflow_desc=None):
+    def add_ui_section(doc, chapter_num, title, ui_desc, manual_desc, workflow_desc=None, functionality_desc=None):
         add_heading(doc, f'{chapter_num}. {title}', 1)
-        add_heading(doc, f'{chapter_num}.1 UI Design', 2)
+        add_heading(doc, f'{chapter_num}.1 Functionality Design', 2)
+        if functionality_desc:
+            doc.add_paragraph(functionality_desc)
+        else:
+            doc.add_paragraph("This module integrates seamlessly with the Sentinel backend core, utilizing dynamic Session State propagation to maintain contextual continuity across analytical tabs.")
+        add_heading(doc, f'{chapter_num}.2 UI Design', 2)
         doc.add_paragraph(ui_desc)
-        add_heading(doc, f'{chapter_num}.2 User Manual', 2)
+        add_heading(doc, f'{chapter_num}.3 User Manual', 2)
         doc.add_paragraph(manual_desc)
         if workflow_desc:
-            add_heading(doc, f'{chapter_num}.3 Logic Workflow', 2)
+            add_heading(doc, f'{chapter_num}.4 Logic Workflow', 2)
             p = doc.add_paragraph(workflow_desc)
             p.runs[0].font.name = 'Courier New'
             p.runs[0].font.size = Pt(9)
@@ -196,16 +201,18 @@ def generate_documentation():
 
     add_ui_section(
         doc, '10', 'UI7 - ML Workflow',
-        "Designed as a progressive, multi-step wizard pipeline minimizing overwhelm. Uses expandable accordion states to conceal complex hyperparameter tuning fields. Key outputs feature visually striking KPI metric cards for Accuracy/F1-Score, supplemented heavily by matplotlib-generated SHAP dependency curves and Confusion Matrices.",
-        "Step 1: Select features and assign a continuous or discrete target matrix.\nStep 2: Calculate validation thresholds using the Train/Test slide adjuster.\nStep 3: Select an algorithm (Random Forest, XGBoost) and train.\nStep 4: Analyze output metrics, interpret the SHAP feature importance plot to understand decision logic, and export the serialized structure to disk.",
-        "► [ Define Target Variables ] \n  └──► [ Execute Categorical Encoding / Scaling ] \n         └──► [ Process Data Imbalance via SMOTE ] \n                └──► [ Train Classifier Algorithm ] \n                       └──► [ Run Game-Theoretic SHAP Computations ] \n                              └──► [ Emit Predictive .pkl Artifact ]"
+        "The interface spans multiple horizontal tabs (Build, Train, Tune, Score, Deploy, Monitor) to gracefully orchestrate the end-to-end Machine Learning lifecycle without overwhelming the analyst. Parameters and hyperparameter tuning fields are housed in expandable accordions. Outputs include visually striking KPIs (Accuracy, F1-Score) and interactive matplotlib/plotly charts for SHAP dependency curves and Confusion Matrices.",
+        "Step 1: In the 'Build Pipeline' tab, select a dataset, assign target variables, and configure automated feature engineering (imputation, categorical encoding, SMOTE for imbalance).\nStep 2: In the 'Train Model' tab, choose an algorithm (e.g., Random Forest, XGBoost), configure the Train/Test split, and fit the model to view KPIs and SHAP feature importance.\nStep 3: Move to 'Tune Model' for GridSearchCV hyperparameter tuning.\nStep 4: Use 'Batch Scoring' to apply your serialized model to new datasets, and 'Monitor' to observe data drift and performance decay over time.",
+        "► [ Data Prep & Feature Eng (Build) ] \n  └──► [ Split Data & SMOTE Balance ] \n         └──► [ Train Classifier (Train/Tune) ] \n                └──► [ SHAP Interpretability Computations ] \n                       └──► [ Serialize Model (.pkl) & Deploy ] \n                              └──► [ Batch Scoring Execution ]",
+        "Functionally designed as an automated, multi-tiered pipeline leveraging scikit-learn and imbalanced-learn. The system decomposes the complexity of traditional data science workflows into sequential state-managed modules. It actively mitigates fraud datasets' notorious class imbalance using SMOTE (Synthetic Minority Over-sampling Technique) before executing model training. Furthermore, game-theoretic SHAP (SHapley Additive exPlanations) values are automatically computed to provide strict regulatory transparency into exactly why the algorithmic decision tree flagged a specific transaction."
     )
 
     add_ui_section(
         doc, '11', 'UI8 - LLM Fine Tuning',
-        "An advanced 'Command Center' aesthetic interface containing dual split-panes perfectly centered for comparing identical prompts issued to 'Base Models' vs 'Fine-Tuned Models'. It includes an artificial terminal stream outputting live compilation losses during localized training cycles.",
-        "Step 1: Assign an open-source Base Model identifier (e.g., LLaMA) and load a curated conversational JSONL dataset emphasizing fraud categorization.\nStep 2: Architect LoRA parameters (Rank, Alpha, Batch limits) and commit the training run.\nStep 3: Transition to the dual-chat evaluation interface to verify behavior adherence mechanically.",
-        "► [ Load Conversational JSONL Dataset ] \n  └──► [ Target Offline Ollama Instance ] \n         └──► [ Initiate MLX LoRA FineTuner Script ] \n                └──► [ Intercept & Render Live Loss Metrics ] \n                       └──► [ Merge Custom Quantized Weights ] \n                              └──► [ Mount Dual Concurrent Inference Endpoints ]"
+        "A highly structured 'Command Center' consisting of four distinct tabs: Collect, Review, Train, and Test. The UI balances technical command configurations (LoRA rank, Alpha, Batch limits) with intuitive data viewing capabilities. The 'Test' tab features a dual-chat split-pane, rendering identical subsequent prompts to both a 'Base Model' and a 'Fine-Tuned Model' concurrently for direct A/B visual comparison.",
+        "Step 1: Use the 'Collect Dataset' tab to securely aggregate Chat/RAG logs, or synthetically generate instructional JSONL datasets using an LLM teacher.\nStep 2: In 'Review', curate the rows to ensure high-quality question/answer pairs and delete anomalous examples.\nStep 3: In the 'Train' tab, select a Base Model (e.g., LLaMA), configure LoRA parameters, and execute the localized MLX training cycle.\nStep 4: Launch the 'Dual-Chat Test' to interrogate both models simultaneously, verifying that the new heavily-weighted fraud knowledge adheres properly.",
+        "► [ Synthesize/Extract JSONL ] \n  └──► [ Curate & Review Schema ] \n         └──► [ Initiate MLX LoRA FineTuner Module ] \n                └──► [ Output Custom Quantized Adapters ] \n                       └──► [ Mount Dual Inference Endpoints ] \n                              └──► [ Concurrent A/B Model Querying ]",
+        "Designed to bring localized, secure Large Language Model optimization to the analyst without requiring cloud execution (preventing PII/data leakage). It utilizes Low-Rank Adaptation (LoRA) via Apple's MLX (or PyTorch) framework to modify model adapters in a fraction of traditional compilation time. The functional architecture isolates the dataset generation (Extracting historical investigator prompts or using teacher-LLM synthetics) from the multi-threaded inference testbed, ensuring empirical validation of model hallucination reduction."
     )
 
     add_ui_section(
