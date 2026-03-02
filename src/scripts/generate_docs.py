@@ -60,9 +60,9 @@ def generate_documentation():
         "investigators, data scientists, and administrators to uncover hidden fraud rings, analyze massive datasets, and fine-tune models safely."
     )
     doc.add_paragraph(
-        "At its core, Sentinel leverages a Multi-Agent architecture powered by LangGraph. It provides three primary modalities of Retrieval-Augmented Generation (RAG): "
-        "SQL RAG for structured transactional data, Graph RAG for interconnected entity analysis (e.g., tracking money laundering across accounts), and "
-        "Multimodal RAG for unstructured evidence like images and audio."
+        "At its core, Sentinel leverages a decoupled client-server architecture. The backend operates robust, specialized Agentic Pipelines (combining prompt generation, SQL validation, autonomous error-recovery, and data synthesis) controlled by a high-concurrency FastAPI orchestrator. "
+        "It provides three primary modalities of Retrieval-Augmented Generation (RAG): SQL RAG for structured transactional data, Graph RAG for interconnected entity analysis (tracking money laundering across accounts via Neo4j), and "
+        "Multimodal RAG for unstructured evidence like documents, images, and audio utilizing FAISS vector indexing."
     )
     doc.add_paragraph(
         "By integrating these capabilities with real-time Machine Learning pipelines (Random Forest, XGBoost) and persistent graph databases, "
@@ -77,7 +77,7 @@ def generate_documentation():
     add_heading(doc, '2.1 System Architecture & Data Flow', 2)
     doc.add_paragraph(
         "The architecture adheres to a strict decoupled pattern: a reactive Streamlit frontend communicates securely via JWT-authenticated REST APIs to a high-concurrency "
-        "FastAPI backend. The backend acts as the orchestrator, dynamically routing analytical requests to the LangGraph Multi-Agent system, the local ML pipeline, or directly to the data stores."
+        "FastAPI backend. The backend acts as the central orchestrator, dynamically routing analytical requests through an ordered, functional Agentic Pipeline (SQL Generation, Candidate Ranking, Self-Recovery, and Reconciler agents), the supervised ML pipeline, or directly to the persistent data stores."
     )
     
     # Workflow diagram
@@ -87,10 +87,10 @@ def generate_documentation():
         "         ▼\n"
         "[ API Gateway (FastAPI) ] ──▶ [ Admin / Auth / RBAC ]\n"
         "         │\n"
-        "         ├──▶ [ Multi-Agent System (LangGraph) ] ──▶ [ Local LLMs (Ollama) ]\n"
-        "         │        ├── SQL RAG Agent \n"
-        "         │        ├── Graph RAG Agent\n"
-        "         │        └── Multimodal Agent\n"
+        "         ├──▶ [ Functional Agentic Pipeline ] ──▶ [ Local LLMs (Ollama/Web) ]\n"
+        "         │        ├── Generation & Ranking Agent\n"
+        "         │        ├── Autonomous Repair Agent\n"
+        "         │        └── Hybrid Synthesis Agent\n"
         "         │\n"
         "         └──▶ [ ML Pipeline (scikit-learn) ]\n"
         "                  ├── Auto-Training Pipeline\n"
